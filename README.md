@@ -30,7 +30,7 @@ keystore and keystore_password are required only if you wich to enforce https, a
 
 Once configuration is done, you can start the dispenser by following command:
 
-`java -jar /build/libs/token-dispenser-1.1.jar`
+`java -jar ./build/libs/token-dispenser-1.1.jar`
 
 ### Usage
 Once server is configured, you can get the following.
