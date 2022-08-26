@@ -30,13 +30,13 @@ keystore and keystore_password are required only if you wich to enforce https, a
 
 Once configuration is done, you can start the dispenser by following command:
 
-`java -Dcredentials=auth.txt -jar ./build/libs/token-dispenser-1.1.jar`
+`java -Dcredentials=auth.txt -Dkeystore=cert.jks -Dkeystore_password=123456  -jar ./build/libs/token-dispenser-1.1.jar`
 
 ### Usage
 Once server is configured, you can get the following.
-1. Status : http://server-address:port/status
-2.  Email : http://server-address:port/email
-3. Tokens  : http://server-address:port/token/email/youremail@gmail.com
+1. Status : https://server-address:port/status
+2. Email : https://server-address:port/email
+3. Tokens  : https://server-address:port/token/email/youremail@gmail.com
 
 ### Credits
 
