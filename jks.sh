@@ -1,4 +1,5 @@
 #bash
+#https://www.baeldung.com/convert-pem-to-jks
 
 openssl pkcs12 -export -in combine.pem -inkey key.pem -out certificate.p12 -name "certificate"
 #cbm123456

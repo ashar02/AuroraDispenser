@@ -50,26 +50,46 @@ public class Server {
 
         Spark.after((req, res) -> res.type("text/plain"));
         Spark.get("/", (req, res) -> "Aurora Token Dispenser");
-        Spark.get("/status", (req, res) -> "Token dispenser is alive !");
-        Spark.get("/token/email/:email", (req, res) -> new TokenResource().handle(req, res));
-        Spark.get("/email", (req, res) -> getRandomEmail(req, res));
+        //Spark.get("/status", (req, res) -> "Token dispenser is alive !");
+        //Spark.get("/token/email/:email", (req, res) -> new TokenResource().handle(req, res));
+        //Spark.get("/email", (req, res) -> getRandomEmail(req, res));
+        Spark.get("/api/auth", (req, res) -> getAuth(req, res));
+        Spark.post("/api/auth", (req, res) -> getAuth(req, res));
+        Spark.after("/api/auth", (req, res) -> afterGetAuth(req, res));
         Spark.notFound((req, res) -> "You are lost !");
     }
 
-    private static Response getRandomEmail(Request request, Response response) {
+    private static Response getAuth(Request request, Response response) {
         Object[] keyArray = authMap.keySet().toArray();
-        Object key = keyArray[new Random().nextInt(keyArray.length)];
-        String email = key.toString();
-        if (email == null || email.isEmpty()) {
-            String body = "Could not retrieve email from server";
-            int status = 500;
-            Spark.halt(status, body);
-            response.status(status);
+        if (keyArray == null || keyArray.length == 0) {
+            String body = "{\"message\":\"Could not retrieve key from server\"}";
+            response.status(500);
             response.body(body);
         } else {
-            response.status(200);
-            response.body(key.toString());
+            Object key = keyArray[new Random().nextInt(keyArray.length)];
+            String email = key.toString();
+            if (email == null || email.isEmpty()) {
+                String body = "{\"message\":\"Could not retrieve email from server\"}";
+                response.status(500);
+                response.body(body);
+            } else {
+                String token = authMap.get(email);
+                if (token == null || token.isEmpty()) {
+                    String body = "{\"message\":\"Could not retrieve token from server\"}";
+                    response.status(500);
+                    response.body(body);
+                } else {
+                    String body = String.format("{\"email\":\"%s\",\"auth\":\"%s\"}", email, token);
+                    response.status(200);
+                    response.body(body);
+                }
+            }
         }
+        return response;
+    }
+
+    private static Response afterGetAuth(Request request, Response response) {
+        response.type("application/json");
         return response;
     }
 
