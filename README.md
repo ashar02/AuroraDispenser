@@ -32,6 +32,8 @@ Once configuration is done, you can start the dispenser by following command:
 
 `java -Dcredentials=auth.txt -Dkeystore=cert.jks -Dkeystore_password=123456  -jar ./build/libs/token-dispenser-1.1.jar`
 
+`java -Dcredentials=auth.txt -Dkeystore=cert.jks -Dkeystore_password=123456  -Dport=6060 -jar ./token-dispenser-1.1.jar`
+
 ### Usage
 Once server is configured, you can get the following.
 1. Status : https://server-address:port/status
